@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {MASTER_MIN_WIDTH, MASTER_WIDTH, DIRECTION, DETAIL_MIN_WIDTH, RESPONSIVE_MODE} from '../../config/variables';
 import {
@@ -16,97 +16,110 @@ import {
 } from '../../utils/functions';
 import * as Component from '../';
 
-export default class MasterDetail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.resizeObserver = null;
-    this.masterRef = React.createRef();
-    this.detailRef = React.createRef();
-    this.state = {
-      allowAlignCards: false,
-      masterDetailStyle: {},
-      masterWidth: MASTER_WIDTH,
-      masterMinWidth: props.masterMinWidth,
-      detailMinWidth: props.detailMinWidth,
-      showDetail: props.showDetail,
-      isRTL: false
-    }
+let resizeObserverData = null;
+
+const MasterDetail = (props) => {
+  const [isRTL, setIsRTL] = useState(false);
+  const [masterWidth, setMasterWidth] = useState(props.masterWidth);
+  const [masterMinWidth, setMasterMinWidth] = useState(props.masterMinWidth);
+  const [detailMinWidth, setDetailMinWidth] = useState(props.detailMinWidth);
+  const [masterDetailStyle, setMasterDetailStyle] = useState({});
+  const [showDetail, setShowDetail] = useState(props.showDetail);
+  const masterRef = useRef(null);
+  const detailRef = useRef(null);
+
+  useEffect(() => {
+    didMount();
+    return () => willUnmount();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setShowDetail(props.showDetail);
+      await resizedMasterDetailWrapper();
+    })();
+  }, [props.showDetail])
+
+  useEffect(() => {
+    (async () => {
+      await initMasterWidth();
+    })();
+  }, [props.masterWidth, props.masterMinWidth, props.detailMinWidth])
+
+  useEffect(() => {
+    calculateRTL();
+  }, [props.direction])
+
+  const didMount = () => {
+    (async () => {
+      setMasterWidthValue(props.defaultMasterWidth)
+      calculateRTL();
+      await initMasterWidth();
+      await resizedMasterDetailWrapper();
+      const observer = resizeObserver(resizedMasterDetailWrapper);
+      resizeObserverData = observer;
+      resizeObserverData.observe(document.querySelector('.master-detail__wrapper'));
+    })();
   }
 
-  componentDidMount() {
-    this.calculateRTL();
-    this.initMasterWidth();
-    this.resizedMasterDetailWrapper();
-    this.resizeObserver = resizeObserver(this.resizedMasterDetailWrapper);
-    this.resizeObserver.observe(document.querySelector('.master-detail__wrapper'));
+  const willUnmount = () => {
+    (async () => {
+      resizeObserverData.unobserve(document.querySelector('.master-detail__wrapper'));
+    })()
   }
 
-  async componentDidUpdate(prevProps) {
-    const { showDetail } = this.props;
-    if (prevProps.showDetail !== showDetail) {
-      await this.setState({showDetail});
-      this.resizedMasterDetailWrapper();
-    }
-  }
-
-  componentWillUnmount() {
-    this.resizeObserver.unobserve(document.querySelector('.master-detail__wrapper'));
-  }
-
-  calculateRTL = () => {
+  const calculateRTL = () => {
     const html = document.getElementsByTagName('html')[0];
     const isRTL = isEmptyString(html.dir) ?
-      this.props.direction === DIRECTION.RTL :
+      props.direction === DIRECTION.RTL :
       html.dir === DIRECTION.RTL;
-    this.setState({isRTL});
+    setIsRTL(isRTL);
   };
 
-  hasDirAttribute = () => {
+  const hasDirAttribute = () => {
     const html = document.getElementsByTagName('html')[0];
     return !isEmptyString(html.dir);
   }
 
-  initMasterWidth = async () => {
-    const {detailMinWidth, masterMinWidth, masterWidth} = this.props;
-
-    const value = this.getWidth(masterWidth);
-    const masterMinWidthValue = this.getWidth(masterMinWidth);
-    const detailMinWidthValue = this.getWidth(detailMinWidth);
-    console.log('INIT: ', masterMinWidthValue, masterMinWidth)
-    await this.setState({masterWidth: value, masterMinWidth: masterMinWidthValue, detailMinWidth: detailMinWidthValue},
-      () => this.setMasterWidth(this.state.masterWidth)
-    );
+  const initMasterWidth = async () => {
+    const value = getWidth(props.masterWidth);
+    const masterMinWidthValue = getWidth(props.masterMinWidth, MASTER_MIN_WIDTH);
+    const detailMinWidthValue = getWidth(props.detailMinWidth, DETAIL_MIN_WIDTH);
+    setMasterWidth(value);
+    setMasterMinWidth(masterMinWidthValue);
+    setDetailMinWidth(detailMinWidthValue);
+    setMasterWidthValue(value);
   };
 
-  getWidth(data, defaultWidth = MASTER_WIDTH) {
+  const getWidth = (data, defaultWidth = MASTER_WIDTH) => {
     return !isEmpty(data) && (isNumber(data) || isObject(data) || isString(data)) ?
       isNumber(data) ?
         data :
         isString(data) ?
-          this.stringToNumber(data) :
+          stringToNumber(data) :
           isObject(data) ?
-            this.objectToNumber(data) :
+            objectToNumber(data) :
             defaultWidth :
       defaultWidth;
   }
 
-  percentToNumber = (data) => {
+  const percentToNumber = (data) => {
     const number = +data.replace('%', '');
     if (isNaN(number) || (number > 100 && number <= 0)) return MASTER_WIDTH;
     const masterDetailWrapperWidth = document.getElementsByClassName('master-detail__wrapper')[0].clientWidth;
     return masterDetailWrapperWidth * (number / 100);
   };
 
-  stringToNumber = (data) => {
+  const stringToNumber = (data) => {
     if (!isString(data)) return MASTER_WIDTH;
     return isUnitMeasurement(data, '%') ?
-      this.percentToNumber(data) :
+      percentToNumber(data) :
       isUnitMeasurement(data, 'px') ?
         +data.replace('px', '') :
         MASTER_WIDTH;
   };
 
-  objectToNumber = (data) => {
+  const objectToNumber = (data) => {
     const mappedResponsiveMode = Object.keys(RESPONSIVE_MODE).map(item => ({[RESPONSIVE_MODE[item].key]: RESPONSIVE_MODE[item].value}));
     const validResponsiveMode = Object.assign({}, ...mappedResponsiveMode);
     if (!isSameObject(data, validResponsiveMode)) return MASTER_WIDTH;
@@ -122,22 +135,20 @@ export default class MasterDetail extends React.Component {
     } else {
       key = RESPONSIVE_MODE.MINI_DESKTOP.key;
     }
-    return this.getWidth(data[key]);
+    return getWidth(data[key]);
   };
 
-  resizedMasterDetailWrapper = async () => {
+  const resizedMasterDetailWrapper = async () => {
     const windowWidth = window.innerWidth;
     if (windowWidth < 960) {
-      this.setState({masterDetailStyle: {}});
+      setMasterDetailStyle({});
       return;
     }
-
-    await this.initMasterWidth();
-    this.calcMasterPosition();
+    await initMasterWidth();
+    calcMasterPosition();
   };
 
-  calcMasterPosition() {
-    const { masterWidth, isRTL } = this.state;
+  const calcMasterPosition = () => {
     const windowWidth = window.innerWidth;
     const masterDetailWrapper = document.getElementsByClassName('master-detail__wrapper')[0];
 
@@ -147,103 +158,95 @@ export default class MasterDetail extends React.Component {
     let subtract = windowWidth - masterDetailWrapperWidth;
     if (subtract < 0) subtract = 0;
 
-    console.log('calcMasterPosition: ', isRTL);
     if (isRTL) {
-      this.setState({
-        masterDetailStyle: {transform: `translateX(calc(-50vw + ${(masterWidth / 2) + (subtract / 2)}px))`}
-      })
+      setMasterDetailStyle({transform: `translateX(calc(-50vw + ${(masterWidth / 2) + (subtract / 2)}px))`});
     } else {
-      this.setState({
-        masterDetailStyle: {transform: `translateX(calc(50vw + -${(masterWidth / 2) + (subtract / 2)}px))`}
-      })
+      setMasterDetailStyle({transform: `translateX(calc(50vw + -${(masterWidth / 2) + (subtract / 2)}px))`});
     }
   }
 
-  handleClose = async () => {
-    await this.setState({showDetail: false});
-    isFunction(this.props.onClose) && this.props.onClose();
-
+  const handleClose = async () => {
+    setShowDetail(false);
+    isFunction(props.onClose) && props.onClose();
     setTimeout(() => {
-      this.setMasterWidth(this.state.masterWidth);
-      this.calcMasterPosition();
+      setMasterWidthValue(masterWidth);
+      calcMasterPosition();
     }, 300);
   };
 
-  setMasterWidth = (width) => {
-    this.masterRef.current.style.width = `${width}px`;
+  const setMasterWidthValue = (width) => {
+    masterRef.current.style.width = `${width}px`;
   };
 
-  render() {
-    const { detailMinWidth, isRTL, masterDetailStyle, masterMinWidth, showDetail } = this.state;
-    const {adjustable, canClose, children, id, noDetail, renderAdjustIcon, renderCloseIcon} = this.props;
-    const {
-      align = '',
-      alignIcon = '',
-      detail = '',
-      detailBody = '',
-      detailHeader = '',
-      detailWrapper = '',
-      master = '',
-      masterBody = '',
-      masterHeader = '',
-      masterWrapper = '',
-      wrapper = ''
-    } = this.props.className;
-    const isActiveDetail = showDetail && isArray(children) && !noDetail;
-    const directionRTLClass = !this.hasDirAttribute() && isRTL ? 'flex__row-reverse' : '';
+  const {
+    align = '',
+    alignIcon = '',
+    detail = '',
+    detailBody = '',
+    detailHeader = '',
+    detailWrapper = '',
+    master = '',
+    masterBody = '',
+    masterHeader = '',
+    masterWrapper = '',
+    wrapper = ''
+  } = props.className;
+  const isActiveDetail = showDetail && isArray(props.children) && !props.noDetail;
+  const directionRTLClass = !hasDirAttribute() && isRTL ? 'flex__row-reverse' : '';
 
-    if (!children) return null;
+  if (!props.children) return null;
 
-    return (
-      <section id={id} className={`master-detail__wrapper position__relative ${wrapper} ${directionRTLClass}`}>
-        <Component.Master
-          bodyClass={masterBody}
-          className={master}
-          children={children}
-          headerClass={masterHeader}
-          id={`${id}-master`}
-          isActive={isActiveDetail}
-          ref={this.masterRef}
-          style={masterDetailStyle}
-          wrapperClass={masterWrapper}
-        />
-        <Component.Align
-          adjustable={adjustable}
-          className={align}
-          detailMinWidth={detailMinWidth}
-          detailRef={this.detailRef}
-          isRTL={isRTL}
-          iconClass={alignIcon}
-          id={`${id}-align-bar`}
-          isShow={isActiveDetail}
-          masterMinWidth={masterMinWidth}
-          masterRef={this.masterRef}
-          renderIcon={renderAdjustIcon}
-        />
-        <Component.Detail
-          adjustable={adjustable}
-          bodyClass={detailBody}
-          canClose={canClose}
-          children={children}
-          className={detail}
-          isRTL={isRTL}
-          headerClass={detailHeader}
-          id={`${id}-detail`}
-          isActive={isActiveDetail}
-          onClose={this.handleClose}
-          ref={this.detailRef}
-          renderCloseIcon={renderCloseIcon}
-          wrapperClass={detailWrapper}
-        />
-      </section>
-    );
-  }
+  return (
+    <section id={props.id} className={`master-detail__wrapper position__relative ${wrapper} ${directionRTLClass}`}>
+      <Component.Master
+        bodyClass={masterBody}
+        className={master}
+        children={props.children}
+        defaultWidth={props.defaultMasterWidth}
+        headerClass={masterHeader}
+        id={`${props.id}-master`}
+        isActive={isActiveDetail}
+        ref={masterRef}
+        style={masterDetailStyle}
+        wrapperClass={masterWrapper}
+      />
+      <Component.Align
+        adjustable={props.adjustable}
+        className={align}
+        detailMinWidth={detailMinWidth}
+        detailRef={detailRef}
+        isRTL={isRTL}
+        iconClass={alignIcon}
+        id={`${props.id}-align-bar`}
+        isShow={isActiveDetail}
+        masterMinWidth={masterMinWidth}
+        masterRef={masterRef}
+        renderIcon={props.renderAdjustIcon}
+      />
+      <Component.Detail
+        adjustable={props.adjustable}
+        bodyClass={detailBody}
+        canClose={props.canClose}
+        children={props.children}
+        className={detail}
+        isRTL={isRTL}
+        headerClass={detailHeader}
+        id={`${props.id}-detail`}
+        isActive={isActiveDetail}
+        onClose={handleClose}
+        ref={detailRef}
+        renderCloseIcon={props.renderCloseIcon}
+        wrapperClass={detailWrapper}
+      />
+    </section>
+  );
 }
 
 MasterDetail.defaultProps = {
   adjustable: true,
   canClose: true,
   className: {},
+  defaultMasterWidth: MASTER_WIDTH,
   detailMinWidth: DETAIL_MIN_WIDTH,
   direction: DIRECTION.LTR,
   id: `master-detail-${randomNumber(10000)}`,
@@ -260,6 +263,7 @@ MasterDetail.propTypes = {
   canClose: PropTypes.bool,
   children: PropTypes.any.isRequired,
   className: PropTypes.object,
+  defaultMasterWidth: PropTypes.number,
   detailMinWidth: PropTypes.any,
   direction: PropTypes.string,
   id: PropTypes.string,
@@ -271,3 +275,5 @@ MasterDetail.propTypes = {
   showDetail: PropTypes.bool,
   onClose: PropTypes.func
 };
+
+export default MasterDetail;

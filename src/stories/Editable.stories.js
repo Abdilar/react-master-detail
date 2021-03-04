@@ -14,9 +14,9 @@ export const example = () => (
     canClose={boolean('Can Close', true)}
     noDetail={boolean('No Detail', false)}
     showDetail={boolean('Show Detail', true)}
-    detailMinWidth={number('Detail min-with', 300)}
-    masterWidth={number('Master with', 600)}
-    masterMinWidth={number('Master min-with', 400)}
+    detailMinWidth={number('Detail min-width (px)', 300)}
+    masterWidth={number('Master width (px)', 600)}
+    masterMinWidth={number('Master min-width (px)', 400)}
     direction={radios('Direction', {rtl: 'rtl', ltr: 'ltr'}, 'ltr')}
   >
     <div>

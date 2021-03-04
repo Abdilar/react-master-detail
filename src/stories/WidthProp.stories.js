@@ -7,7 +7,7 @@ export default {
 }
 
 export const masterWidthStringPX = () => (
-  <MasterDetail masterWidth="300px">
+  <MasterDetail masterWidth="300px" defaultMasterWidth={300}>
     <div>
       <div>Master header</div>
       <div>
@@ -43,7 +43,7 @@ export const masterWidthStringPercent = () => (
 );
 
 export const masterWidthNumber = () => (
-  <MasterDetail masterWidth={500}>
+  <MasterDetail masterWidth={500} defaultMasterWidth={500}>
     <div>
       <div>Master header</div>
       <div>

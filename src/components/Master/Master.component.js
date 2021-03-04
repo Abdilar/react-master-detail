@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import {MASTER_WIDTH} from "../../config/variables";
 import {randomNumber} from '../../utils/functions';
 import * as Component from '../';
 
 const Master = React.forwardRef((props, ref) => {
-  const {children, className, id, isActive, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
+  const {children, className, defaultWidth, id, isActive, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
   return (
     <div
       id={id}
       ref={ref}
-      style={innerStyle}
+      style={{...innerStyle, width: `${defaultWidth}px`}}
       className={`master-detail__master master-detail__master--${isActive ? 'active' : 'width-anim'} ${className}`}
     >
       <div className={`master-detail__card ${wrapperClass}`}>
@@ -23,6 +24,7 @@ const Master = React.forwardRef((props, ref) => {
 Master.defaultProps = {
   body: '',
   className: '',
+  defaultWidth: MASTER_WIDTH,
   header: '',
   id: `master-${randomNumber(10000)}`,
   isActive: false,
@@ -34,6 +36,7 @@ Master.propTypes = {
   bodyClass: PropTypes.string,
   children: PropTypes.any.isRequired,
   className: PropTypes.string,
+  defaultWidth: PropTypes.number,
   headerClass: PropTypes.string,
   id: PropTypes.string,
   isActive: PropTypes.bool,
