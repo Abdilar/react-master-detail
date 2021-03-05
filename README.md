@@ -2,7 +2,7 @@
 
 > Simple, easy master-detail for React
 
-[![NPM](https://img.shields.io/npm/v/react-master-detail.svg)](https://www.npmjs.com/package/react-master-detail) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@sakit-sa/react-master-detail.svg)](https://www.npmjs.com/package/@sakit-sa/react-master-detail) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Live Playground
 For examples of the react-master-detail in action, go to https://abdilar.github.io/react-master-detail.
