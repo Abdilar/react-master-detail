@@ -1,0 +1,80 @@
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+#root, #root > div.story {
+  flex: 1;
+}
+
+.master-detail__wrapper {
+  font-family: "Proxima Nova";
+}
+
+.icon {
+  padding: 5px 10px;
+  background: #ffe2f6;
+  border: 1px dashed #f941a7;
+  border-radius: 4px;
+}
+
+
+.color {
+  &-blue {
+    border: 3px solid #0e426b;
+  }
+
+  &-lighten-blue {
+    background: #e4f1ff !important;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  &-light-blue {
+    background: #aed7ff;
+  }
+
+  &-dark-blue {
+    background: #4f93ca;
+  }
+
+  &-lighten-green {
+    background: #e4fff3 !important;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  &-light-green {
+    background: #aeffcc;
+  }
+
+  &-dark-green {
+    background: #4fca9f;
+  }
+
+  &-white {
+    background: #fff;
+    border: 3px dashed #aaaaaa;
+  }
+
+  &-muted {
+    background: #bebebe;
+  }
+
+  &-red {
+    background: #ff438a;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+}
