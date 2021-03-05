@@ -56,8 +56,7 @@ const MasterDetail = (props) => {
       calculateRTL();
       await initMasterWidth();
       await resizedMasterDetailWrapper();
-      const observer = resizeObserver(resizedMasterDetailWrapper);
-      resizeObserverData = observer;
+      resizeObserverData = resizeObserver(resizedMasterDetailWrapper);
       resizeObserverData.observe(document.querySelector('.master-detail__wrapper'));
     })();
   }
@@ -125,7 +124,7 @@ const MasterDetail = (props) => {
     if (!isSameObject(data, validResponsiveMode)) return MASTER_WIDTH;
 
     const windowWidth = window.innerWidth;
-    let key = undefined;
+    let key;
     if (windowWidth >= RESPONSIVE_MODE.EXTRA_LARGE_DESKTOP.value) {
       key = RESPONSIVE_MODE.EXTRA_LARGE_DESKTOP.key;
     } else if (windowWidth >= RESPONSIVE_MODE.LARGE_DESKTOP.value) {
@@ -185,7 +184,6 @@ const MasterDetail = (props) => {
     detailBody = '',
     detailHeader = '',
     detailWrapper = '',
-    master = '',
     masterBody = '',
     masterHeader = '',
     masterWrapper = '',
@@ -200,7 +198,6 @@ const MasterDetail = (props) => {
     <section id={props.id} className={`master-detail__wrapper position__relative ${wrapper} ${directionRTLClass}`}>
       <Component.Master
         bodyClass={masterBody}
-        className={master}
         children={props.children}
         defaultWidth={props.defaultMasterWidth}
         headerClass={masterHeader}

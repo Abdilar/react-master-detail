@@ -16,7 +16,6 @@ export const className = () => {
     detailBody: 'color-light-blue',
     detailHeader: 'color-dark-blue',
     detailWrapper: 'color-lighten-blue',
-    master: 'color-green',
     masterBody: 'color-light-green',
     masterHeader: 'color-dark-green',
     masterWrapper: 'color-lighten-green',

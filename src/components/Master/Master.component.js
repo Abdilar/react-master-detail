@@ -5,13 +5,13 @@ import {randomNumber} from '../../utils/functions';
 import * as Component from '../';
 
 const Master = React.forwardRef((props, ref) => {
-  const {children, className, defaultWidth, id, isActive, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
+  const {children, defaultWidth, id, isActive, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
   return (
     <div
       id={id}
       ref={ref}
       style={{...innerStyle, width: `${defaultWidth}px`}}
-      className={`master-detail__master master-detail__master--${isActive ? 'active' : 'width-anim'} ${className}`}
+      className={`master-detail__master master-detail__master--${isActive ? 'active' : 'width-anim'}`}
     >
       <div className={`master-detail__card ${wrapperClass}`}>
         <Component.MasterHeader id={`${id}-header`} className={headerClass} children={children} />
@@ -23,7 +23,6 @@ const Master = React.forwardRef((props, ref) => {
 
 Master.defaultProps = {
   body: '',
-  className: '',
   defaultWidth: MASTER_WIDTH,
   header: '',
   id: `master-${randomNumber(10000)}`,
@@ -35,7 +34,6 @@ Master.defaultProps = {
 Master.propTypes = {
   bodyClass: PropTypes.string,
   children: PropTypes.any.isRequired,
-  className: PropTypes.string,
   defaultWidth: PropTypes.number,
   headerClass: PropTypes.string,
   id: PropTypes.string,

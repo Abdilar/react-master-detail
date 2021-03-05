@@ -7,7 +7,7 @@ import {randomNumber} from '../../utils/functions';
 const Align = (props) => {
   const {className, adjustable, detailRef, iconClass, id, isRTL, isShow: isShowAlign, masterRef, renderIcon} = props;
   const [isShow, setIsShow] = useState(isShowAlign);
-  const [allowAlignCards, setAllowAlignCards, getAllowAlignCards] = useState(false);
+  const [, setAllowAlignCards, getAllowAlignCards] = useState(false);
   const [, setDetailMinWidth, getDetailMinWidth] = useState(props.detailMinWidth);
   const [, setMasterMinWidth, getMasterMinWidth] = useState(props.masterMinWidth);
   const bodyElement = document.getElementsByTagName('body')[0];
