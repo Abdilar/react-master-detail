@@ -7,24 +7,12 @@ $width-sizes: (
     width: #{$size}px;
   }
 
-  .\!width__#{$size} {
-    width: #{$size}px !important;
-  }
-
   .min-width__#{$size} {
     min-width: #{$size}px;
   }
 
-  .\!min-width__#{$size} {
-    min-width: #{$size}px !important;
-  }
-
   .max-width__#{$size} {
     max-width: #{$size}px;
-  }
-
-  .\!max-width__#{$size} {
-    max-width: #{$size}px !important;
   }
 }
 
@@ -67,81 +55,22 @@ $width-sizes: (
    }
 }
 
-.\!width__expand {
-  width: 100% !important;
-   &\@xs {
-     @include screen-xsmall {
-       width: 100% !important;
-     }
-   }
-
-   &\@s {
-     @include screen-small {
-       width: 100% !important;
-     }
-   }
-
-   &\@m {
-     @include screen-medium {
-       width: 100% !important;
-     }
-   }
-
-   &\@l {
-     @include screen-large {
-       width: 100% !important;
-     }
-   }
-
-   &\@xl {
-     @include screen-xlarge {
-       width: 100% !important;
-     }
-   }
-
-   &\@xxl {
-     @include screen-xxlarge {
-       width: 100% !important;
-     }
-   }
-}
-
 .min-width__expand {
   min-width: 100%;
-}
-
-.\!min-width__expand {
-  min-width: 100% !important;
 }
 
 .width__auto {
   width: auto ;
 }
 
-.\!width__auto {
-  width: auto !important;
-}
-
 .width__initial {
   width: initial;
-}
-
-.\!width__initial {
-  width: initial !important;
 }
 
 .max-width__initial {
   max-width: initial;
 }
 
-.\!max-width__initial {
-  max-width: initial !important;
-}
-
 .min-width__initial {
   min-width: initial;
-}
-
-.\!min-width__initial {
-  min-width: initial !important;
 }

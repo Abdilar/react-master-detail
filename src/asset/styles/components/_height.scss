@@ -7,24 +7,12 @@ $height-sizes: (
     height: #{$size}px;
   }
 
-  .\!height__#{$size} {
-    height: #{$size}px !important;
-  }
-
   .min-height__#{$size} {
     min-height: #{$size}px;
   }
 
-  .\!min-height__#{$size} {
-    min-height: #{$size}px !important;
-  }
-
   .max-height__#{$size} {
     max-height: #{$size}px;
-  }
-
-  .\!max-height__#{$size} {
-    max-height: #{$size}px !important;
   }
 }
 
@@ -32,46 +20,22 @@ $height-sizes: (
   height: 100%;
 }
 
-.\!height__expand {
-  height: 100% !important;
-}
-
 .min-height__expand {
   min-height: 100%;
-}
-
-.\!min-height__expand {
-  min-height: 100% !important;
 }
 
 .height__auto {
   height: auto ;
 }
 
-.\!height__auto {
-  height: auto !important;
-}
-
 .height__initial {
   height: initial;
-}
-
-.\!height__initial {
-  height: initial !important;
 }
 
 .max-height__initial {
   max-height: initial;
 }
 
-.\!max-height__initial {
-  max-height: initial !important;
-}
-
 .min-height__initial {
   min-height: initial;
-}
-
-.\!min-height__initial {
-  min-height: initial !important;
 }

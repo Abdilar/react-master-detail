@@ -4,8 +4,4 @@ $cursors: (pointer, default, col-resize);
   .cursor__#{$cursor} {
     cursor: $cursor;
   }
-
-  .\!cursor__#{$cursor} {
-    cursor: $cursor !important;
-  }
 }
