@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {DIRECTION} from "../../config/variables";
 import {randomNumber} from "../../utils/functions";
-import * as Component from '../index';
+import * as Component from '../';
 
 import style from '../index.module.scss';
 
@@ -45,7 +44,7 @@ Detail.defaultProps = {
   id: `detail-${randomNumber(10000)}`,
   isActive: false,
   isRTL: false,
-  renderCloseIcon: <span className={style.master_detail_detail_close}><i className="icon-close" alt="close icon"/></span>,
+  renderCloseIcon: <Component.CloseIcon />,
   wrapperClass: ''
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {BODY_PROP, DIRECTION} from "../../config/variables";
+import {BODY_PROP} from "../../config/variables";
 import {isArray} from '../../utils/functions';
+import {CloseIcon} from "../";
 
 import style from '../index.module.scss';
-import closeIcon from '../../asset/images/close.svg';
 
 const DetailHeader = (props) => {
   const {canClose, children, className, isActive, isRTL, renderCloseIcon} = props;
@@ -34,7 +34,7 @@ DetailHeader.defaultProps = {
   className: '',
   isActive: false,
   isRTL: false,
-  renderCloseIcon: <span className={style.master_detail_detail_close}><img src={closeIcon} alt="close icon"/></span>
+  renderCloseIcon: <CloseIcon />
 };
 
 DetailHeader.propTypes = {

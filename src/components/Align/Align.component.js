@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import {MASTER_MIN_WIDTH, MASTER_WIDTH} from '../../config/variables';
 import useState from '../../hooks/setState.hook';
 import {randomNumber} from '../../utils/functions';
+import {AdjustIcon} from "../";
 
 import style from '../index.module.scss';
-import adjustIcon from "../../asset/images/adjust.svg";
 
 const Align = (props) => {
   const {className, adjustable, detailRef, iconClass, id, isRTL, isShow: isShowAlign, masterRef, renderIcon} = props;
@@ -101,7 +101,7 @@ Align.defaultProps = {
   isRTL: false,
   isShow: true,
   masterMinWidth: MASTER_MIN_WIDTH,
-  renderIcon: <span className={style.align_icon}><img draggable={false} src={adjustIcon} alt="adjust icon"/></span>
+  renderIcon: <AdjustIcon />
 };
 
 Align.propTypes = {

@@ -17,8 +17,6 @@ import {
 import * as Component from '../';
 
 import style from '../index.module.scss';
-import adjustIcon from "../../asset/images/adjust.svg";
-import closeIcon from "../../asset/images/close.svg";
 
 let resizeObserverData = null;
 
@@ -254,8 +252,8 @@ MasterDetail.defaultProps = {
   masterMinWidth: MASTER_MIN_WIDTH,
   masterWidth: MASTER_WIDTH,
   noDetail: false,
-  renderAdjustIcon: <span className={style.align_icon}><img draggable={false} src={adjustIcon} alt="adjust icon" /></span>,
-  renderCloseIcon: <span className={style.master_detail_detail_close}><img src={closeIcon} alt="close icon" /></span>,
+  renderAdjustIcon: <Component.AdjustIcon />,
+  renderCloseIcon: <Component.CloseIcon />,
   showDetail: true
 };
 
