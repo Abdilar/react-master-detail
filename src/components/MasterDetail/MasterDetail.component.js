@@ -16,6 +16,10 @@ import {
 } from '../../utils/functions';
 import * as Component from '../';
 
+import style from '../index.module.scss';
+import adjustIcon from "../../asset/images/adjust.svg";
+import closeIcon from "../../asset/images/close.svg";
+
 let resizeObserverData = null;
 
 const MasterDetail = (props) => {
@@ -190,12 +194,12 @@ const MasterDetail = (props) => {
     wrapper = ''
   } = props.className;
   const isActiveDetail = showDetail && isArray(props.children) && !props.noDetail;
-  const directionRTLClass = !hasDirAttribute() && isRTL ? 'flex__row-reverse' : '';
+  const directionRTLClass = !hasDirAttribute() && isRTL ? style.flex_row_reverse : '';
 
   if (!props.children) return null;
 
   return (
-    <section id={props.id} className={`master-detail__wrapper position__relative ${wrapper} ${directionRTLClass}`}>
+    <section id={props.id} className={`master-detail__wrapper ${style.master_detail_wrapper} ${style.position_relative} ${wrapper} ${directionRTLClass}`}>
       <Component.Master
         bodyClass={masterBody}
         children={props.children}
@@ -250,8 +254,8 @@ MasterDetail.defaultProps = {
   masterMinWidth: MASTER_MIN_WIDTH,
   masterWidth: MASTER_WIDTH,
   noDetail: false,
-  renderAdjustIcon: <i className="icon-align" />,
-  renderCloseIcon: <i className="icon-close" />,
+  renderAdjustIcon: <span className={style.align_icon}><img draggable={false} src={adjustIcon} alt="adjust icon" /></span>,
+  renderCloseIcon: <span className={style.master_detail_detail_close}><img src={closeIcon} alt="close icon" /></span>,
   showDetail: true
 };
 
@@ -274,3 +278,6 @@ MasterDetail.propTypes = {
 };
 
 export default MasterDetail;
+
+// TODO: رفتار دایرکشن در راست چین با اتریبیوت دیر یکی باشه و تسکت الاین ها در راست چین اصلاح بشن
+// TODO: در زمان بسته بودن دیتیل الاینمنت مستر قابل تغییر باشه یعنی مثلا وسط چین نباشه

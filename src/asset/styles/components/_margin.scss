@@ -1,110 +1,15 @@
-@import "../mixins/responsive";
-
 $margin-sizes: (
   5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
 );
 
 @each $margin in $margin-sizes {
   .margin {
-    &__#{$margin} {
-      margin: #{$margin}px;
-    }
-
-    &__horizontal__#{$margin} {
-      margin-right: #{$margin}px;
-      margin-left: #{$margin}px;
-    }
-
-    &__vertical__#{$margin} {
-      margin-top: #{$margin}px;
-      margin-bottom: #{$margin}px;
-    }
-
-    &__top__#{$margin} {
-      margin-top: #{$margin}px;
-    }
-
-    &__right__#{$margin} {
+    &_right_#{$margin} {
       margin-right: #{$margin}px;
     }
 
-    &__bottom__#{$margin} {
-      margin-bottom: #{$margin}px;
-    }
-
-    &__left__#{$margin} {
+    &_left_#{$margin} {
       margin-left: #{$margin}px;
     }
-  }
-
-  .margin__child {
-    &__#{$margin} > * {
-      margin: #{$margin}px;
-    }
-
-    &__horizontal__#{$margin} > * {
-      margin-right: #{$margin}px;
-      margin-left: #{$margin}px;
-    }
-
-    &__vertical__#{$margin} > * {
-      margin-top: #{$margin}px;
-      margin-bottom: #{$margin}px;
-    }
-
-    &__top__#{$margin} > * {
-      margin-top: #{$margin}px;
-    }
-
-    &__right__#{$margin} > * {
-      margin-right: #{$margin}px;
-    }
-
-    &__bottom__#{$margin} > * {
-      margin-bottom: #{$margin}px;
-    }
-
-    &__left__#{$margin} > * {
-      margin-left: #{$margin}px;
-    }
-  }
-}
-
-.margin__remove {
-  margin: 0;
-
-  &__horizontal {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  &__vertical {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  &__top {
-    margin-top: 0;
-  }
-
-  &__right {
-    margin-right: 0;
-  }
-
-  &__bottom {
-    margin-bottom: 0;
-  }
-
-  &__left {
-    margin-left: 0;
-  }
-}
-
-.margin__auto {
-  margin: auto;
-
-  &__horizontal {
-    margin-right: auto;
-    margin-left: auto;
   }
 }

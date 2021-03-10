@@ -4,6 +4,9 @@ import {MASTER_MIN_WIDTH, MASTER_WIDTH} from '../../config/variables';
 import useState from '../../hooks/setState.hook';
 import {randomNumber} from '../../utils/functions';
 
+import style from '../index.module.scss';
+import adjustIcon from "../../asset/images/adjust.svg";
+
 const Align = (props) => {
   const {className, adjustable, detailRef, iconClass, id, isRTL, isShow: isShowAlign, masterRef, renderIcon} = props;
   const [isShow, setIsShow] = useState(isShowAlign);
@@ -11,7 +14,7 @@ const Align = (props) => {
   const [, setDetailMinWidth, getDetailMinWidth] = useState(props.detailMinWidth);
   const [, setMasterMinWidth, getMasterMinWidth] = useState(props.masterMinWidth);
   const bodyElement = document.getElementsByTagName('body')[0];
-  const activeAlignClass = isShowAlign ? 'align-bar--active' : '';
+  const activeAlignClass = isShowAlign ? style.align_bar__active : '';
 
   const didMount = () => {
     bodyElement.addEventListener('mouseup', stopMouseMove);
@@ -43,14 +46,14 @@ const Align = (props) => {
 
   const startMouseMove = async () => {
     if (await getAllowAlignCards()) return;
-    bodyElement.classList.add('master-detail--select-no');
+    bodyElement.classList.add(style.master_detail__select_no);
     bodyElement.addEventListener('mousemove', alignCards);
     setAllowAlignCards(true);
   };
 
   const stopMouseMove = async () => {
     if (!await getAllowAlignCards()) return;
-    bodyElement.classList.remove('master-detail--select-no');
+    bodyElement.classList.remove(style.master_detail__select_no);
     bodyElement.removeEventListener('mousemove', alignCards);
     setAllowAlignCards(false);
   };
@@ -75,9 +78,9 @@ const Align = (props) => {
   };
 
   const content = (
-    <div id={id} className={`visible@m flex__center__vertical align-bar ${activeAlignClass} ${className}`}>
+    <div id={id} className={`${style.visible_m} ${style.flex_center_vertical} ${style.align_bar} ${activeAlignClass} ${className}`}>
       <span
-        className={`cursor__col-resize margin__horizontal__5 align-bar__icon ${iconClass}`}
+        className={`${style.cursor_col_resize} ${style.align_bar_wrapper} ${iconClass}`}
         onMouseDown={startMouseMove}
         onMouseUp={stopMouseMove}
       >
@@ -98,7 +101,7 @@ Align.defaultProps = {
   isRTL: false,
   isShow: true,
   masterMinWidth: MASTER_MIN_WIDTH,
-  renderIcon: <i className="icon-align" />,
+  renderIcon: <span className={style.align_icon}><img draggable={false} src={adjustIcon} alt="adjust icon"/></span>
 };
 
 Align.propTypes = {

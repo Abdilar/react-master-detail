@@ -1,7 +1,10 @@
-$cursors: (pointer, default, col-resize);
+$cursors: (
+  pointer: pointer,
+  col_resize: col-resize
+);
 
-@each $cursor in $cursors {
-  .cursor__#{$cursor} {
-    cursor: $cursor;
+@each $cursor in map-keys($cursors) {
+  .cursor_#{$cursor} {
+    cursor: map-get($cursors, $cursor);
   }
 }

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {BODY_PROP} from "../../config/variables";
 import {isArray} from '../../utils/functions';
 
+import style from '../index.module.scss';
+
 const DetailBody = (props) => {
   const {children, className} = props;
   const detailBody = isArray(children) ?
@@ -10,7 +12,7 @@ const DetailBody = (props) => {
     null;
 
   return (
-    <div className={`${className} master-detail__card__body scroll__modern height__expand`}>
+    <div className={`${className} ${style.master_detail_card_body} ${style.scroll_modern} ${style.height_expand}`}>
       { detailBody }
     </div>
   )

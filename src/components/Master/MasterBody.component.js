@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {BODY_PROP} from "../../config/variables";
 import {isArray, isObject, randomNumber} from '../../utils/functions';
 
+import style from '../index.module.scss';
+
 const MasterBody = (props) => {
   const {children, className, id} = props;
   const hasBodyProp = isArray(children) ? children[0].props.hasOwnProperty(BODY_PROP) : children.props && children.props.hasOwnProperty(BODY_PROP);
@@ -15,7 +17,7 @@ const MasterBody = (props) => {
       null;
 
   return (
-    <div id={id} className={`master-detail__card__body scroll scroll__modern ${className}`}>
+    <div id={id} className={`${style.master_detail_card_body} ${style.scroll_modern} ${className}`}>
       { masterBody }
     </div>
   );

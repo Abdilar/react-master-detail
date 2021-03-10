@@ -4,19 +4,21 @@ import {DIRECTION} from "../../config/variables";
 import {randomNumber} from "../../utils/functions";
 import * as Component from '../index';
 
+import style from '../index.module.scss';
+
 const Detail = React.forwardRef((props, ref) => {
   const {adjustable, bodyClass, canClose, className, children, headerClass, id, isActive, isRTL, renderCloseIcon, wrapperClass} = props;
-  const marginClass = !adjustable ? (isRTL ? 'margin__right__20' : 'margin__left__20') : '';
-  const directionClass = `master-detail__detail--${isRTL ? DIRECTION.RTL : DIRECTION.LTR}`;
-  const activeClass = isActive ? 'master-detail__detail--open' : '';
+  const marginClass = !adjustable ? (isRTL ? style.margin_right_15 : style.margin_left_15) : '';
+  const directionClass = isRTL ? style.master_detail_detail__rtl : style.master_detail_detail__ltr;
+  const activeClass = isActive ? style.master_detail_detail__open : '';
 
   const content = (
     <div
       id={id}
       ref={ref}
-      className={`master-detail__detail ${className} ${directionClass} ${activeClass} ${marginClass}`}
+      className={`${style.master_detail_detail} ${className} ${directionClass} ${activeClass} ${marginClass}`}
     >
-      <div className={`master-detail__card position__relative ${wrapperClass}`}>
+      <div className={`${style.master_detail_card} ${style.position_relative} ${wrapperClass}`}>
         <Component.DetailHeader
           className={headerClass}
           canClose={canClose}
@@ -43,7 +45,7 @@ Detail.defaultProps = {
   id: `detail-${randomNumber(10000)}`,
   isActive: false,
   isRTL: false,
-  renderCloseIcon: <i className="icon-close" />,
+  renderCloseIcon: <span className={style.master_detail_detail_close}><i className="icon-close" alt="close icon"/></span>,
   wrapperClass: ''
 };
 
