@@ -13,5 +13,14 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-viewport",
     "@storybook/preset-scss",
-  ]
+  ],
+  webpackFinal: async (config, { configType }) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify")
+    }
+
+    return config;
+  }
 }
