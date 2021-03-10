@@ -4,16 +4,20 @@ import {MASTER_WIDTH} from "../../config/variables";
 import {randomNumber} from '../../utils/functions';
 import * as Component from '../';
 
+import style from '../index.module.scss';
+
 const Master = React.forwardRef((props, ref) => {
   const {children, defaultWidth, id, isActive, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
+  const activeClass = isActive ? style.master_detail_master__active : style.master_detail_master__width_anim;
+
   return (
     <div
       id={id}
       ref={ref}
       style={{...innerStyle, width: `${defaultWidth}px`}}
-      className={`master-detail__master master-detail__master--${isActive ? 'active' : 'width-anim'}`}
+      className={`${style.master_detail_master} ${activeClass}`}
     >
-      <div className={`master-detail__card ${wrapperClass}`}>
+      <div className={`${style.master_detail_card} ${wrapperClass}`}>
         <Component.MasterHeader id={`${id}-header`} className={headerClass} children={children} />
         <Component.MasterBody id={`${id}-body`} className={bodyClass} children={children}/>
       </div>

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {BODY_PROP} from "../../config/variables";
 import {isArray, isObject, randomNumber} from '../../utils/functions';
 
+import style from '../index.module.scss';
+
 const MasterHeader = (props) => {
   const {children, className, id} = props;
   const hasBodyProp = isArray(children) ? children[0].props.hasOwnProperty(BODY_PROP) : children.props && children.props.hasOwnProperty(BODY_PROP);
@@ -16,7 +18,7 @@ const MasterHeader = (props) => {
 
 
   const content = (
-    <div id={id} className={`master-detail__card__header ${className}`}>
+    <div id={id} className={`${style.master_detail_card_header} ${className}`}>
       { masterHeader }
     </div>
   );
