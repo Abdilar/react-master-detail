@@ -24,18 +24,23 @@ npm install @sakit-sa/react-master-detail
 
 ### Usage
 ```jsx
-import MasterDetail from '@sakit-sa/react-master-detail';
+import React from 'react';
 
-<MasterDetail>
-  <div>
-    <div>Master header</div>
-    <div>Master body</div>
-  </div>
-  <div>
-    <div>Detail header</div>
-    <div>Detail body</div>
-  </div>
-</MasterDetail>
+import MasterDetail from '@sakit-sa/react-master-detail';
+import '@sakit-sa/react-master-detail/dist/index.css';
+
+const App = () => (
+  <MasterDetail>
+    <div>
+      <div>Master header</div>
+      <div>Master body</div>
+    </div>
+    <div>
+      <div>Detail header</div>
+      <div>Detail body</div>
+    </div>
+  </MasterDetail>
+);
 ```
 
 ### Props
