@@ -65,7 +65,8 @@ const MasterDetail = (props) => {
 
   const willUnmount = () => {
     (async () => {
-      resizeObserverData.unobserve(document.querySelector('.master-detail__wrapper'));
+      const element = document.querySelector('.master-detail__wrapper');
+      element && resizeObserverData.unobserve(element);
     })()
   }
 
@@ -176,7 +177,7 @@ const MasterDetail = (props) => {
   };
 
   const setMasterWidthValue = (width) => {
-    masterRef.current.style.width = `${width}px`;
+    masterRef.current && (masterRef.current.style.width = `${width}px`);
   };
 
   const {
