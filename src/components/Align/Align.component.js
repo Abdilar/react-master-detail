@@ -42,8 +42,6 @@ const Align = (props) => {
     setDetailMinWidth(props.detailMinWidth);
   }, [props.detailMinWidth]);
 
-
-
   const startMouseMove = async () => {
     if (await getAllowAlignCards()) return;
     bodyElement.classList.add(style.master_detail__select_no);

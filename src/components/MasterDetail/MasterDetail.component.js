@@ -32,7 +32,7 @@ const MasterDetail = (props) => {
 
   useEffect(() => {
     didMount();
-    return () => willUnmount();
+    return willUnmount;
   }, []);
 
   useEffect(() => {
