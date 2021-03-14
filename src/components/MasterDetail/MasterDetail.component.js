@@ -207,6 +207,7 @@ const MasterDetail = (props) => {
         headerClass={masterHeader}
         id={`${props.id}-master`}
         isActive={isActiveDetail}
+        isRTL={isRTL}
         ref={masterRef}
         style={masterDetailStyle}
         wrapperClass={masterWrapper}
@@ -279,5 +280,4 @@ MasterDetail.propTypes = {
 
 export default MasterDetail;
 
-// TODO: رفتار دایرکشن در راست چین با اتریبیوت دیر یکی باشه و تسکت الاین ها در راست چین اصلاح بشن
 // TODO: در زمان بسته بودن دیتیل الاینمنت مستر قابل تغییر باشه یعنی مثلا وسط چین نباشه

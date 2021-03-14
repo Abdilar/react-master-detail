@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import {randomNumber} from "../../utils/functions";
+import {DIRECTION} from "../../config/variables";
+import {isEmptyString, randomNumber} from "../../utils/functions";
 import * as Component from '../';
 
 import style from '../index.module.scss';
@@ -10,6 +11,8 @@ const Detail = React.forwardRef((props, ref) => {
   const marginClass = !adjustable ? (isRTL ? style.margin_right_15 : style.margin_left_15) : '';
   const directionClass = isRTL ? style.master_detail_detail__rtl : style.master_detail_detail__ltr;
   const activeClass = isActive ? style.master_detail_detail__open : '';
+  const html = document.getElementsByTagName('html')[0];
+  const direction = isEmptyString(html.dir) && isRTL ? DIRECTION.RTL : '';
 
   const content = (
     <div
@@ -17,7 +20,7 @@ const Detail = React.forwardRef((props, ref) => {
       ref={ref}
       className={`${style.master_detail_detail} ${className} ${directionClass} ${activeClass} ${marginClass}`}
     >
-      <div className={`${style.master_detail_card} ${style.position_relative} ${wrapperClass}`}>
+      <div dir={direction} className={`${style.master_detail_card} ${style.position_relative} ${wrapperClass}`}>
         <Component.DetailHeader
           className={headerClass}
           canClose={canClose}
@@ -27,7 +30,7 @@ const Detail = React.forwardRef((props, ref) => {
           renderCloseIcon={renderCloseIcon}
           onClose={() => props.onClose()}
         />
-        <Component.DetailBody children={children} className={bodyClass} />
+        <Component.DetailBody children={children} className={bodyClass} isRTL={isRTL} />
       </div>
     </div>
   );
