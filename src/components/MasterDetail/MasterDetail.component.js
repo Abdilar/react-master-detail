@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
+import setState from '../../hooks/setState.hook';
 import {MASTER_MIN_WIDTH, MASTER_WIDTH, DIRECTION, DETAIL_MIN_WIDTH, RESPONSIVE_MODE} from '../../config/variables';
 import {
   isArray,
@@ -22,7 +23,7 @@ let resizeObserverData = null;
 
 const MasterDetail = (props) => {
   const [isRTL, setIsRTL] = useState(false);
-  const [masterWidth, setMasterWidth] = useState(props.masterWidth);
+  const [masterWidth, setMasterWidth, getMasterWidth] = setState(props.masterWidth);
   const [masterMinWidth, setMasterMinWidth] = useState(props.masterMinWidth);
   const [detailMinWidth, setDetailMinWidth] = useState(props.detailMinWidth);
   const [masterDetailStyle, setMasterDetailStyle] = useState({});
@@ -32,7 +33,7 @@ const MasterDetail = (props) => {
 
   useEffect(() => {
     didMount();
-    return () => willUnmount();
+    return willUnmount;
   }, []);
 
   useEffect(() => {
@@ -65,7 +66,8 @@ const MasterDetail = (props) => {
 
   const willUnmount = () => {
     (async () => {
-      resizeObserverData.unobserve(document.querySelector('.master-detail__wrapper'));
+      const element = document.querySelector('.master-detail__wrapper');
+      element && resizeObserverData.unobserve(element);
     })()
   }
 
@@ -86,9 +88,9 @@ const MasterDetail = (props) => {
     const value = getWidth(props.masterWidth);
     const masterMinWidthValue = getWidth(props.masterMinWidth, MASTER_MIN_WIDTH);
     const detailMinWidthValue = getWidth(props.detailMinWidth, DETAIL_MIN_WIDTH);
-    setMasterWidth(value);
-    setMasterMinWidth(masterMinWidthValue);
-    setDetailMinWidth(detailMinWidthValue);
+    await setMasterWidth(value);
+    await setMasterMinWidth(masterMinWidthValue);
+    await setDetailMinWidth(detailMinWidthValue);
     setMasterWidthValue(value);
   };
 
@@ -146,13 +148,13 @@ const MasterDetail = (props) => {
       return;
     }
     await initMasterWidth();
-    calcMasterPosition();
+    await calcMasterPosition();
   };
 
-  const calcMasterPosition = () => {
+  const calcMasterPosition = async () => {
+    const masterWidth = await getMasterWidth();
     const windowWidth = window.innerWidth;
     const masterDetailWrapper = document.getElementsByClassName('master-detail__wrapper')[0];
-
     if (!masterDetailWrapper || windowWidth < 960) return;
 
     const masterDetailWrapperWidth = masterDetailWrapper.clientWidth;
@@ -169,14 +171,12 @@ const MasterDetail = (props) => {
   const handleClose = async () => {
     setShowDetail(false);
     isFunction(props.onClose) && props.onClose();
-    setTimeout(() => {
-      setMasterWidthValue(masterWidth);
-      calcMasterPosition();
-    }, 300);
+    setMasterWidthValue(masterWidth);
+    props.centerAlign && calcMasterPosition();
   };
 
   const setMasterWidthValue = (width) => {
-    masterRef.current.style.width = `${width}px`;
+    masterRef.current && (masterRef.current.style.width = `${width}px`);
   };
 
   const {
@@ -200,11 +200,13 @@ const MasterDetail = (props) => {
     <section id={props.id} className={`master-detail__wrapper ${style.master_detail_wrapper} ${style.position_relative} ${wrapper} ${directionRTLClass}`}>
       <Component.Master
         bodyClass={masterBody}
+        centerAlign={props.centerAlign}
         children={props.children}
         defaultWidth={props.defaultMasterWidth}
         headerClass={masterHeader}
         id={`${props.id}-master`}
         isActive={isActiveDetail}
+        isRTL={isRTL}
         ref={masterRef}
         style={masterDetailStyle}
         wrapperClass={masterWrapper}
@@ -244,6 +246,7 @@ const MasterDetail = (props) => {
 MasterDetail.defaultProps = {
   adjustable: true,
   canClose: true,
+  centerAlign: true,
   className: {},
   defaultMasterWidth: MASTER_WIDTH,
   detailMinWidth: DETAIL_MIN_WIDTH,
@@ -260,6 +263,7 @@ MasterDetail.defaultProps = {
 MasterDetail.propTypes = {
   adjustable: PropTypes.bool,
   canClose: PropTypes.bool,
+  centerAlign: PropTypes.bool,
   children: PropTypes.any.isRequired,
   className: PropTypes.object,
   defaultMasterWidth: PropTypes.number,
@@ -277,5 +281,4 @@ MasterDetail.propTypes = {
 
 export default MasterDetail;
 
-// TODO: رفتار دایرکشن در راست چین با اتریبیوت دیر یکی باشه و تسکت الاین ها در راست چین اصلاح بشن
 // TODO: در زمان بسته بودن دیتیل الاینمنت مستر قابل تغییر باشه یعنی مثلا وسط چین نباشه

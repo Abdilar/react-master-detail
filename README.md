@@ -48,6 +48,7 @@ Name | Type | Default | Description
 -----|------|-------|-----
 **adjustable**|`boolean`|`true`|Boolean value to control whether can adjust the master and the detail sections.
 **canClose**|`boolean`|`true`|Boolean value to control whether can close detail section.
+**centerAlign**|`boolean`|`true`|Boolean value to control whether can aligns master section in the center.
 **className**|`object`|`{}`|Apply a className to the control
 **defaultMasterWidth**|`number`|`600px`|Set initial width of master section.
 **detailMinWidth**|`string` `number` `object`|`550px`|Set minimum width of detail section.

@@ -16,7 +16,6 @@ const MasterHeader = (props) => {
       (isArray(children.props.children) && !hasBodyProp ? children.props.children[0] : null) :
       null;
 
-
   const content = (
     <div id={id} className={`${style.master_detail_card_header} ${className}`}>
       { masterHeader }

@@ -22,5 +22,9 @@ module.exports = {
     }
 
     return config;
-  }
+  },
+  babel: async (options) => ({
+    ...options,
+    "presets": ["@babel/preset-react"]
+  }),
 }

@@ -12,13 +12,12 @@ const DetailHeader = (props) => {
     (isArray(children[1].props.children) && !children[1].props.hasOwnProperty(BODY_PROP) ? children[1].props.children[0] : null) :
     null;
   const directionClass = isRTL ? style.master_detail_detail_header__rtl : style.master_detail_detail_header__ltr;
-  const directionRTLClass = isRTL ? style.flex_row_reverse_m : '';
 
   const content = (
     <div className={`${style.master_detail_card_header} ${className}`}>
       {
         isActive && canClose ? (
-          <div className={`${style.flex_space_between} ${style.width_expand} ${directionClass} ${directionRTLClass}`}>
+          <div className={`${style.flex_space_between} ${style.width_expand} ${directionClass}`}>
             {detailHeader}
             <span className={style.cursor_pointer} onClick={() => props.onClose()}>{renderCloseIcon}</span>
           </div>
