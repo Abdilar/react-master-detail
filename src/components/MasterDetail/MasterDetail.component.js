@@ -172,7 +172,7 @@ const MasterDetail = (props) => {
     setShowDetail(false);
     isFunction(props.onClose) && props.onClose();
     setMasterWidthValue(masterWidth);
-    calcMasterPosition();
+    props.centerAlign && calcMasterPosition();
   };
 
   const setMasterWidthValue = (width) => {
@@ -200,6 +200,7 @@ const MasterDetail = (props) => {
     <section id={props.id} className={`master-detail__wrapper ${style.master_detail_wrapper} ${style.position_relative} ${wrapper} ${directionRTLClass}`}>
       <Component.Master
         bodyClass={masterBody}
+        centerAlign={props.centerAlign}
         children={props.children}
         defaultWidth={props.defaultMasterWidth}
         headerClass={masterHeader}
@@ -245,6 +246,7 @@ const MasterDetail = (props) => {
 MasterDetail.defaultProps = {
   adjustable: true,
   canClose: true,
+  centerAlign: true,
   className: {},
   defaultMasterWidth: MASTER_WIDTH,
   detailMinWidth: DETAIL_MIN_WIDTH,
@@ -261,6 +263,7 @@ MasterDetail.defaultProps = {
 MasterDetail.propTypes = {
   adjustable: PropTypes.bool,
   canClose: PropTypes.bool,
+  centerAlign: PropTypes.bool,
   children: PropTypes.any.isRequired,
   className: PropTypes.object,
   defaultMasterWidth: PropTypes.number,

@@ -12,6 +12,7 @@ export const example = () => (
     id={text('ID', 'unique-id')}
     adjustable={boolean('Adjustable', true)}
     canClose={boolean('Can Close', true)}
+    centerAlign={boolean('Can Center Align', true)}
     noDetail={boolean('No Detail', false)}
     showDetail={boolean('Show Detail', true)}
     detailMinWidth={number('Detail min-width (px)', 300)}

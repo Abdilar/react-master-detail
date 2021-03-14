@@ -7,8 +7,8 @@ import * as Component from '../';
 import style from '../index.module.scss';
 
 const Master = React.forwardRef((props, ref) => {
-  const {children, defaultWidth, id, isActive, isRTL, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
-  const activeClass = isActive ? style.master_detail_master__active : style.master_detail_master__width_anim;
+  const {centerAlign, children, defaultWidth, id, isActive, isRTL, bodyClass, headerClass, style: innerStyle, wrapperClass} = props;
+  const activeClass = !centerAlign || isActive ? style.master_detail_master__active : style.master_detail_master__width_anim;
   const html = document.getElementsByTagName('html')[0];
   const direction = isEmptyString(html.dir) && isRTL ? DIRECTION.RTL : '';
 
@@ -29,6 +29,7 @@ const Master = React.forwardRef((props, ref) => {
 
 Master.defaultProps = {
   body: '',
+  centerAlign: true,
   defaultWidth: MASTER_WIDTH,
   header: '',
   id: `master-${randomNumber(10000)}`,
@@ -40,6 +41,7 @@ Master.defaultProps = {
 
 Master.propTypes = {
   bodyClass: PropTypes.string,
+  centerAlign: PropTypes.bool,
   children: PropTypes.any.isRequired,
   defaultWidth: PropTypes.number,
   headerClass: PropTypes.string,
