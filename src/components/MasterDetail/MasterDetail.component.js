@@ -49,21 +49,30 @@ const MasterDetail = (props) => {
     }
   }
 
-  useEffect(() => {
-    didMount();
-  }, []);
-
-  useEffect(() => {
+  const onChangeShowDetail = () => {
     (async () => {
       setShowDetail(props.showDetail);
       await resizedMasterDetailWrapper();
     })();
-  }, [props.showDetail])
+  }
 
-  useEffect(() => {
+  const onChangeWidth = () => {
     (async () => {
       await initMasterWidth();
     })();
+  }
+
+  useEffect(() => {
+    didMount();
+    return willUnmount;
+  }, []);
+
+  useEffect(() => {
+    onChangeShowDetail();
+  }, [props.showDetail])
+
+  useEffect(() => {
+    onChangeWidth();
   }, [props.masterWidth, props.masterMinWidth, props.detailMinWidth])
 
   useEffect(() => {
