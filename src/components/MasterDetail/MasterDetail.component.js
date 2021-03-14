@@ -280,5 +280,3 @@ MasterDetail.propTypes = {
 };
 
 export default MasterDetail;
-
-// TODO: در زمان بسته بودن دیتیل الاینمنت مستر قابل تغییر باشه یعنی مثلا وسط چین نباشه
