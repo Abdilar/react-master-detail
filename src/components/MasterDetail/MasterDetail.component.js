@@ -171,10 +171,8 @@ const MasterDetail = (props) => {
   const handleClose = async () => {
     setShowDetail(false);
     isFunction(props.onClose) && props.onClose();
-    setTimeout(() => {
-      setMasterWidthValue(masterWidth);
-      calcMasterPosition();
-    }, 300);
+    setMasterWidthValue(masterWidth);
+    calcMasterPosition();
   };
 
   const setMasterWidthValue = (width) => {
