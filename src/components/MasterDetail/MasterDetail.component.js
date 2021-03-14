@@ -31,6 +31,24 @@ const MasterDetail = (props) => {
   const masterRef = useRef(null);
   const detailRef = useRef(null);
 
+  const didMount = () => {
+    (async () => {
+      setMasterWidthValue(props.defaultMasterWidth)
+      calculateRTL();
+      await initMasterWidth();
+      await resizedMasterDetailWrapper();
+      resizeObserverData = resizeObserver(resizedMasterDetailWrapper);
+      resizeObserverData.observe(document.querySelector('.master-detail__wrapper'));
+    })();
+  }
+
+  const willUnmount = () => {
+    (async () => {
+      const element = document.querySelector('.master-detail__wrapper');
+      element && resizeObserverData.unobserve(element);
+    })()
+  }
+
   useEffect(() => {
     didMount();
     return willUnmount;
@@ -52,24 +70,6 @@ const MasterDetail = (props) => {
   useEffect(() => {
     calculateRTL();
   }, [props.direction])
-
-  const didMount = () => {
-    (async () => {
-      setMasterWidthValue(props.defaultMasterWidth)
-      calculateRTL();
-      await initMasterWidth();
-      await resizedMasterDetailWrapper();
-      resizeObserverData = resizeObserver(resizedMasterDetailWrapper);
-      resizeObserverData.observe(document.querySelector('.master-detail__wrapper'));
-    })();
-  }
-
-  const willUnmount = () => {
-    (async () => {
-      const element = document.querySelector('.master-detail__wrapper');
-      element && resizeObserverData.unobserve(element);
-    })()
-  }
 
   const calculateRTL = () => {
     const html = document.getElementsByTagName('html')[0];
