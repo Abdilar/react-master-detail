@@ -44,7 +44,9 @@ const MasterDetail = (props) => {
 
   const willUnmount = () => {
     const element = document.querySelector('.master-detail__wrapper');
-    element && resizeObserverData.unobserve(element);
+    if (element) {
+      resizeObserverData.unobserve(element);
+    }
   }
 
   useEffect(() => {
