@@ -26,7 +26,6 @@ const Align = (props) => {
 
   useEffect(() => {
     didMount();
-
     return willUnmount;
   }, []);
 

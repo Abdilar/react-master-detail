@@ -31,28 +31,6 @@ const MasterDetail = (props) => {
   const masterRef = useRef(null);
   const detailRef = useRef(null);
 
-  useEffect(() => {
-    didMount();
-    return willUnmount;
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      setShowDetail(props.showDetail);
-      await resizedMasterDetailWrapper();
-    })();
-  }, [props.showDetail])
-
-  useEffect(() => {
-    (async () => {
-      await initMasterWidth();
-    })();
-  }, [props.masterWidth, props.masterMinWidth, props.detailMinWidth])
-
-  useEffect(() => {
-    calculateRTL();
-  }, [props.direction])
-
   const didMount = () => {
     (async () => {
       setMasterWidthValue(props.defaultMasterWidth)
@@ -65,11 +43,41 @@ const MasterDetail = (props) => {
   }
 
   const willUnmount = () => {
-    (async () => {
-      const element = document.querySelector('.master-detail__wrapper');
-      element && resizeObserverData.unobserve(element);
-    })()
+    const element = document.querySelector('.master-detail__wrapper');
+    if (element) {
+      resizeObserverData.unobserve(element);
+    }
   }
+
+  const onChangeShowDetail = () => {
+    (async () => {
+      setShowDetail(props.showDetail);
+      await resizedMasterDetailWrapper();
+    })();
+  }
+
+  const onChangeWidth = () => {
+    (async () => {
+      await initMasterWidth();
+    })();
+  }
+
+  useEffect(() => {
+    didMount();
+    return willUnmount;
+  }, []);
+
+  useEffect(() => {
+    onChangeShowDetail();
+  }, [props.showDetail])
+
+  useEffect(() => {
+    onChangeWidth();
+  }, [props.masterWidth, props.masterMinWidth, props.detailMinWidth])
+
+  useEffect(() => {
+    calculateRTL();
+  }, [props.direction])
 
   const calculateRTL = () => {
     const html = document.getElementsByTagName('html')[0];
@@ -280,5 +288,3 @@ MasterDetail.propTypes = {
 };
 
 export default MasterDetail;
-
-// TODO: در زمان بسته بودن دیتیل الاینمنت مستر قابل تغییر باشه یعنی مثلا وسط چین نباشه
