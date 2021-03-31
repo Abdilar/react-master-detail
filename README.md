@@ -53,7 +53,7 @@ Name | Type | Default | Description
 **defaultMasterWidth**|`number`|`600px`|Set initial width of master section.
 **detailMinWidth**|`string` `number` `object`|`550px`|Set minimum width of detail section.
 **direction**|`string`|`ltr`|Is the master-detail direction (right-to-left or left-to-right)
-**id**|`string`|`master-detail-[randomNumber(10000)]`|The unique identifier for the component.
+**id**|`string`|`react-master-detail-[randomNumber]`|The unique identifier for the component.
 **masterMinWidth**|`string` `number` `object`|`400px`|Set minimum width of master section.
 **masterWidth**|`string` `number` `object`|`600px`|Set width of master section.
 **noDetail**|`boolean`|`false`|Boolean value to control whether to show details section (Affects showDetail property).
@@ -97,4 +97,4 @@ mdt: Affects device widths of 960px and larger.
 ```
 ### License
 
-MIT © [Saeed Abdilar](https://github.com/Abdilar)
+MIT Licensed. © Copyright [Saeed Abdilar](https://github.com/Abdilar)
