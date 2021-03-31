@@ -22,6 +22,7 @@ import style from '../index.module.scss';
 let resizeObserverData = null;
 
 const MasterDetail = (props) => {
+  const [id, setId] = useState('react-master-detail');
   const [isRTL, setIsRTL] = useState(false);
   const [masterWidth, setMasterWidth, getMasterWidth] = setState(props.masterWidth);
   const [masterMinWidth, setMasterMinWidth] = useState(props.masterMinWidth);
@@ -33,34 +34,34 @@ const MasterDetail = (props) => {
 
   const didMount = () => {
     (async () => {
-      setMasterWidthValue(props.defaultMasterWidth)
+      setMasterWidthValue(props.defaultMasterWidth);
       calculateRTL();
       await initMasterWidth();
       await resizedMasterDetailWrapper();
       resizeObserverData = resizeObserver(resizedMasterDetailWrapper);
       resizeObserverData.observe(document.querySelector('.master-detail__wrapper'));
     })();
-  }
+  };
 
   const willUnmount = () => {
     const element = document.querySelector('.master-detail__wrapper');
     if (element) {
       resizeObserverData.unobserve(element);
     }
-  }
+  };
 
   const onChangeShowDetail = () => {
     (async () => {
       setShowDetail(props.showDetail);
       await resizedMasterDetailWrapper();
     })();
-  }
+  };
 
   const onChangeWidth = () => {
     (async () => {
       await initMasterWidth();
     })();
-  }
+  };
 
   useEffect(() => {
     didMount();
@@ -68,8 +69,13 @@ const MasterDetail = (props) => {
   }, []);
 
   useEffect(() => {
+    const id = !isEmptyString(props.id) ? props.id : `react-master-detail-${randomNumber(10000)}`;
+    setId(id);
+  }, [props.id]);
+
+  useEffect(() => {
     onChangeShowDetail();
-  }, [props.showDetail])
+  }, [props.showDetail]);
 
   useEffect(() => {
     onChangeWidth();
@@ -77,7 +83,7 @@ const MasterDetail = (props) => {
 
   useEffect(() => {
     calculateRTL();
-  }, [props.direction])
+  }, [props.direction]);
 
   const calculateRTL = () => {
     const html = document.getElementsByTagName('html')[0];
@@ -90,7 +96,7 @@ const MasterDetail = (props) => {
   const hasDirAttribute = () => {
     const html = document.getElementsByTagName('html')[0];
     return !isEmptyString(html.dir);
-  }
+  };
 
   const initMasterWidth = async () => {
     const value = getWidth(props.masterWidth);
@@ -112,7 +118,7 @@ const MasterDetail = (props) => {
             objectToNumber(data) :
             defaultWidth :
       defaultWidth;
-  }
+  };
 
   const percentToNumber = (data) => {
     const number = +data.replace('%', '');
@@ -174,7 +180,7 @@ const MasterDetail = (props) => {
     } else {
       setMasterDetailStyle({transform: `translateX(calc(50vw + -${(masterWidth / 2) + (subtract / 2)}px))`});
     }
-  }
+  };
 
   const handleClose = async () => {
     setShowDetail(false);
@@ -205,14 +211,14 @@ const MasterDetail = (props) => {
   if (!props.children) return null;
 
   return (
-    <section id={props.id} className={`master-detail__wrapper ${style.master_detail_wrapper} ${style.position_relative} ${wrapper} ${directionRTLClass}`}>
+    <section id={id} className={`master-detail__wrapper ${style.master_detail_wrapper} ${style.position_relative} ${wrapper} ${directionRTLClass}`}>
       <Component.Master
         bodyClass={masterBody}
         centerAlign={props.centerAlign}
         children={props.children}
         defaultWidth={props.defaultMasterWidth}
         headerClass={masterHeader}
-        id={`${props.id}-master`}
+        id={`${id}-master`}
         isActive={isActiveDetail}
         isRTL={isRTL}
         ref={masterRef}
@@ -226,7 +232,7 @@ const MasterDetail = (props) => {
         detailRef={detailRef}
         isRTL={isRTL}
         iconClass={alignIcon}
-        id={`${props.id}-align-bar`}
+        id={`${id}-align-bar`}
         isShow={isActiveDetail}
         masterMinWidth={masterMinWidth}
         masterRef={masterRef}
@@ -240,7 +246,7 @@ const MasterDetail = (props) => {
         className={detail}
         isRTL={isRTL}
         headerClass={detailHeader}
-        id={`${props.id}-detail`}
+        id={`${id}-detail`}
         isActive={isActiveDetail}
         onClose={handleClose}
         ref={detailRef}
@@ -259,7 +265,6 @@ MasterDetail.defaultProps = {
   defaultMasterWidth: MASTER_WIDTH,
   detailMinWidth: DETAIL_MIN_WIDTH,
   direction: DIRECTION.LTR,
-  id: `master-detail-${randomNumber(10000)}`,
   masterMinWidth: MASTER_MIN_WIDTH,
   masterWidth: MASTER_WIDTH,
   noDetail: false,
@@ -288,3 +293,5 @@ MasterDetail.propTypes = {
 };
 
 export default MasterDetail;
+
+// TODO: FIX Detail section animation
