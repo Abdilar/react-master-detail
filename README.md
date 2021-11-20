@@ -98,3 +98,5 @@ mdt: Affects device widths of 960px and larger.
 ### License
 
 MIT © [Saeed Abdilar](https://github.com/Abdilar)
+
+api/pin?username=anuraghazra&repo=github-readme-stats
